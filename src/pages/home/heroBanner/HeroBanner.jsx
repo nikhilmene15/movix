@@ -56,7 +56,7 @@ function HeroBanner() {
                 </div>
             </div>
         </ContentWrapper>
-        <div style={{height:"2000px"}}>hh</div>
+        <div style={{height:"1000px"}}>hh</div>
 
            
         </div>
