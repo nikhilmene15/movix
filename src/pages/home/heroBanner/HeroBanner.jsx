@@ -3,6 +3,8 @@ import "./style.scss"
 import { useNavigate } from 'react-router-dom';
 import useFetch from '../../../hooks/useFetch';
 import { useSelector } from 'react-redux';
+import Img from '../../../components/lazyLoadImage/Img';
+import ContentWrapper from '../../../components/contentWrapper/ContentWrapper';
 function HeroBanner() {
 
     const [background, setBackground] = useState("");
@@ -28,27 +30,37 @@ function HeroBanner() {
     }
   return (
     <div className="heroBanner">
-           
+           {!loading && 
+            <div className='backdrop-img'>
+           <Img src={background} alt='' />
+           </div>
+        
+        }
             <div className="opacity-layer"></div>
            
-                <div className="heroBannerContent">
-                    <span className="title">Welcome.</span>
-                    <span className="subTitle">
-                        Millions of movies, TV shows and people to discover.
-                        Explore now.
-                    </span>
-                    <div className="searchInput">
-                        <input
-                            type="text"
-                            placeholder="Search for a movie or tv show...."
-                            onChange={(e)=>setQuery(e.target.value)}
-                            onKeyUp={searchQueryHandler}
-                        />
-                        <button>Search</button>
-                    </div>
+            <ContentWrapper>
+            <div className="heroBannerContent">
+                <span className="title">Welcome.</span>
+                <span className="subTitle">
+                    Millions of movies, TV shows and people to discover.
+                    Explore now.
+                </span>
+                <div className="searchInput">
+                    <input
+                        type="text"
+                        placeholder="Search for a movie or tv show...."
+                        onChange={(e) => setQuery(e.target.value)}
+                        onKeyUp={searchQueryHandler}
+                    />
+                    <button>Search</button>
                 </div>
+            </div>
+        </ContentWrapper>
+        <div style={{height:"2000px"}}>hh</div>
+
            
         </div>
+       
   )
 }
 
