@@ -3,7 +3,7 @@ import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
 } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
 
@@ -14,12 +14,23 @@ import CircleRating from "../circleRating/CircleRating";
 // import Genres from "../genres/Genres";
 
 import "./style.scss";
+import Genres from "../genres/Genres";
 
-function Carousel({ data, loading }) {
+function Carousel({ data, loading,endpoint , title}) {
   const { url } = useSelector((state) => state.home);
-  console.log(url);
+  const Navigate = useNavigate();
+  // console.log(url);
   const carouselContainer = useRef();
-
+const navigation =(dir)=>{
+const container = carouselContainer.current
+// console.log(container);
+const scrollAmount = dir === "left" ?
+ container.scrollLeft - (container.offsetWidth + 20): container.scrollLeft + (container.offsetWidth + 20);
+ container.scrollTo({
+  left:scrollAmount,
+  behavior:"smooth"
+})
+}
 
 
   const skItem = () => {
@@ -38,8 +49,9 @@ function Carousel({ data, loading }) {
   return (
     <div className="carousel">
       <ContentWrapper>
-        <BsFillArrowLeftCircleFill className="carouselLeftNav arrow" />
-        <BsFillArrowRightCircleFill className="carouselRighttNav arrow" />
+      {title && <div className="carouselTitle">{title}</div>}
+        <BsFillArrowLeftCircleFill onClick={()=>navigation("left")} className="carouselLeftNav arrow" />
+        <BsFillArrowRightCircleFill onClick={()=>navigation("right")} className="carouselRighttNav arrow" />
 
         {!loading ? (
           <div className="carouselItems" ref={carouselContainer}>
@@ -48,10 +60,11 @@ function Carousel({ data, loading }) {
                 ? url.poster + item.poster_path
                 : PosterFallback;
               return (
-                <div className="carouselItem" key={item.id}>
+                <div className="carouselItem" key={item.id} onClick={()=>Navigate(`/${item.media_type || endpoint}/${item.id}`)}>
                   <div className="posterBlock">
                     <Img src={posterUrl} />
                     <CircleRating rating ={item.vote_average.toFixed(1)} />
+                    <Genres data ={item.genre_ids} />
                   </div>
                   <div className="textBlock">
                     <span className="title">{item.title || item.name}</span>
